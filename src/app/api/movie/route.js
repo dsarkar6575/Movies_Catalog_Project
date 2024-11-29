@@ -31,7 +31,7 @@ export async function POST(request){
   try{
 
 
-    const createMovie=await movie.save();
+    await movie.save();
 
   const response=NextResponse.json(movie,{
     status:201,
@@ -58,6 +58,3 @@ export function DELETE(request){
   {status:201, statusText:"hey changed text"});
 }
 
-export function PUT(){
-  
-}

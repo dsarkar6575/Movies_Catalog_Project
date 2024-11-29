@@ -16,7 +16,7 @@ export const connectDb =async()=>{
     // })
     // await moviee.save();
 
-    console.log("user is created");
+    console.log("movie is created");
   }catch(error){
     console.log("failed to connect with database");
     console.log(error);

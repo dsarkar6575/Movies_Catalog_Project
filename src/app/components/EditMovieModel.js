@@ -8,57 +8,54 @@ export default function EditMovieModal({ open, onClose, movie, onEdit }) {
 
   useEffect(() => {
     if (movie) {
-      setUpdatedMovie(movie); // Set initial movie details when modal opens
+      setUpdatedMovie(movie); 
     }
   }, [movie]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedMovie({ ...updatedMovie, [name]: value }); // Update field dynamically
+    setUpdatedMovie({ ...updatedMovie, [name]: value }); 
   };
 
   const handleSubmit = () => {
-    onEdit(updatedMovie); // Call the edit function with updated movie
-    onClose(); // Close the modal
+    onEdit(updatedMovie); 
+    onClose();
   };
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 2, maxWidth: 400, mx: 'auto', mt: '15%' }}>
+      <Box sx={{ p: 4, backgroundColor: 'white', margin: 'auto', width: 400 }}>
         <h2>Edit Movie</h2>
         <TextField
           label="Movie Name"
           name="name"
           value={updatedMovie.name || ''}
           onChange={handleChange}
-          fullWidth
-          sx={{ mb: 2 }}
+          fullWidth margin="normal"
+          
         />
         <TextField
           label="Director"
           name="director"
           value={updatedMovie.director || ''}
           onChange={handleChange}
-          fullWidth
-          sx={{ mb: 2 }}
+          fullWidth margin="normal"
         />
         <TextField
           label="Cast"
           name="cast"
           value={updatedMovie.cast || ''}
           onChange={handleChange}
-          fullWidth
-          sx={{ mb: 2 }}
+          fullWidth margin="normal"
         />
         <TextField
           label="Budget"
           name="budget"
           value={updatedMovie.budget || ''}
           onChange={handleChange}
-          fullWidth
-          sx={{ mb: 2 }}
+          fullWidth margin="normal"
         />
-        <Button variant="contained" onClick={handleSubmit}>
+        <Button variant="contained" fullWidth margin="normal" onClick={handleSubmit}>
           Save Changes
         </Button>
       </Box>

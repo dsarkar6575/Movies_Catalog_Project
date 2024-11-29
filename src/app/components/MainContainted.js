@@ -37,14 +37,14 @@ export default function Main(){
       const response = await fetch(`/api/movie/${updatedMovie._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedMovie), // Send updated movie details
+        body: JSON.stringify(updatedMovie),
       });
   
       if (!response.ok) {
         throw new Error('Failed to update the movie');
       }
   
-      // Re-fetch movies after successful editing
+     
       fetchMovies();
     } catch (error) {
       console.error('Error editing movie:', error);
@@ -102,8 +102,7 @@ export default function Main(){
               <TableCell>
              
               <Button size="small" onClick={() => { setSelectedMovie(movie); setIsModalEdit(true); }}> Edit</Button>
-
-                <Button color="error" size="small" onClick={() => deleteMovie(movie._id)}>Delete</Button>
+              <Button color="error" size="small" onClick={() => deleteMovie(movie._id)}>Delete</Button>
               </TableCell>
             </TableRow>
           ))}
