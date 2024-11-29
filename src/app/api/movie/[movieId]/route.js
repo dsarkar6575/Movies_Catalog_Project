@@ -1,7 +1,7 @@
 import { Movie } from "@/models/movie";
 import { NextResponse } from "next/server";
 
-export async function DELETE(request,{params}){
+export async function DELETE(req,{params}){
   const {movieId} =params;
   try {
    await Movie.deleteOne({
@@ -21,23 +21,21 @@ export async function DELETE(request,{params}){
   
 }
 
-export async function PUT(request,{params}){
-  const {movieId}=params;
-  const {name,cast,director,budget}=await request.json();
 
-  try{
-    const movie=await Movie.findById(movieId);
-    movie.name=name;
-    movie.cast=cast;
-    movie.director=director;
-    movie.budget=budget;
 
-    const updatedMovie=await Movie.save();
-    return NextResponse.json(updatedMovie);
-  }catch(error){
-     return NextResponse.json({
-      message:"failed to update movie!!",
-      success: false,
-     });
+export async function PUT(req, { params }) {
+
+  const { movieId } = params; 
+  const updatedMovie = await req.json(); 
+
+  try {
+    const movie = await Movie.findByIdAndUpdate(movieId, updatedMovie, { new: true });
+    if (!movie) {
+      return new Response(JSON.stringify({ message: 'Movie not found' }), { status: 404 });
+    }
+    return new Response(JSON.stringify(movie), { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new Response(JSON.stringify({ message: 'Error updating movie' }), { status: 500 });
   }
 }

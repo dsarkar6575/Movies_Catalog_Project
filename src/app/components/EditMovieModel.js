@@ -1,92 +1,67 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
+import { Modal, Box, TextField, Button } from '@mui/material';
 
-export default function EditMovieModel({ movieId }) {
-  const [formData, setFormData] = useState({
-    name: '',
-    cast: '',
-    director: '',
-    budget: '',
-  });
+export default function EditMovieModal({ open, onClose, movie, onEdit }) {
+  const [updatedMovie, setUpdatedMovie] = useState(movie || {});
 
-  // Fetch movie details to prefill the form
   useEffect(() => {
-    fetch(`/api/movie/${movieId}`)
-      .then((res) => res.json())
-      .then((data) => setFormData(data))
-      .catch((err) => console.error('Failed to fetch movie details:', err));
-  }, [movieId]);
+    if (movie) {
+      setUpdatedMovie(movie); // Set initial movie details when modal opens
+    }
+  }, [movie]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setUpdatedMovie({ ...updatedMovie, [name]: value }); // Update field dynamically
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`/api/movie/${movieId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        alert('Movie updated successfully!');
-      } else {
-        alert(`Failed to update movie: ${result.message}`);
-      }
-    } catch (error) {
-      console.error('Error updating movie:', error);
-    }
+  const handleSubmit = () => {
+    onEdit(updatedMovie); // Call the edit function with updated movie
+    onClose(); // Close the modal
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Movie Name:</label>
-        <input
-          type="text"
+    <Modal open={open} onClose={onClose}>
+      <Box sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 2, maxWidth: 400, mx: 'auto', mt: '15%' }}>
+        <h2>Edit Movie</h2>
+        <TextField
+          label="Movie Name"
           name="name"
-          value={formData.name}
+          value={updatedMovie.name || ''}
           onChange={handleChange}
-          required
+          fullWidth
+          sx={{ mb: 2 }}
         />
-      </div>
-      <div>
-        <label>Cast:</label>
-        <input
-          type="text"
-          name="cast"
-          value={formData.cast}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Director:</label>
-        <input
-          type="text"
+        <TextField
+          label="Director"
           name="director"
-          value={formData.director}
+          value={updatedMovie.director || ''}
           onChange={handleChange}
-          required
+          fullWidth
+          sx={{ mb: 2 }}
         />
-      </div>
-      <div>
-        <label>Budget:</label>
-        <input
-          type="number"
+        <TextField
+          label="Cast"
+          name="cast"
+          value={updatedMovie.cast || ''}
+          onChange={handleChange}
+          fullWidth
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="Budget"
           name="budget"
-          value={formData.budget}
+          value={updatedMovie.budget || ''}
           onChange={handleChange}
-          required
+          fullWidth
+          sx={{ mb: 2 }}
         />
-      </div>
-      <button type="submit">Update Movie</button>
-    </form>
+        <Button variant="contained" onClick={handleSubmit}>
+          Save Changes
+        </Button>
+      </Box>
+    </Modal>
   );
 }
-
-

@@ -1,13 +1,15 @@
 "use client";
 import React, { useState,useEffect} from 'react';
 import { Container, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material';
-import EditMovieModel from './EditMovieModel';
+import EditMovieModal from './EditMovieModel';
 import AddMovieModal from './AddMovieModal';
 
 export default function Main(){
   const [movies, setMovies] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalEdit, setIsModalEdit] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
+
 
 
   const fetchMovies = async () => {
@@ -30,24 +32,26 @@ export default function Main(){
     fetchMovies();
   };
 
-  const editMovie = async (movieId) => {
+  const editMovie = async (updatedMovie) => {
     try {
-      const response = await fetch(`/api/movie/${movieId}`, {
+      const response = await fetch(`/api/movie/${updatedMovie._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(movieId), // Send updated movie details
+        body: JSON.stringify(updatedMovie), // Send updated movie details
       });
   
       if (!response.ok) {
-        throw new Error('Failed to edit the movie');
+        throw new Error('Failed to update the movie');
       }
   
-      // Re-fetch movies after editing
+      // Re-fetch movies after successful editing
       fetchMovies();
     } catch (error) {
       console.error('Error editing movie:', error);
     }
   };
+  
+  
 
   
   const deleteMovie = async (movieId) => {
@@ -61,15 +65,12 @@ export default function Main(){
         throw new Error('Failed to delete the movie');
       }
   
-      // Re-fetch movies after deletion
       fetchMovies();
     } catch (error) {
       console.error('Error deleting movie:', error);
     }
   };
   
-
-
   useEffect(() => {
     fetchMovies();
   }, []);
@@ -87,7 +88,7 @@ export default function Main(){
             <TableCell>Name</TableCell>
             <TableCell>Cast</TableCell>
             <TableCell>Director</TableCell>
-            <TableCell>Budget</TableCell>
+            <TableCell>Movie Budget (in INR)</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -99,8 +100,9 @@ export default function Main(){
               <TableCell>{movie.director}</TableCell>
               <TableCell>{movie.budget}</TableCell>
               <TableCell>
-              {/* <Button  onClick={() => setIsModalEdit(true)}>Edit</Button> */}
-              <Button  size="small" onClick={() => editMovie(movie._id)}>Edit</Button>
+             
+              <Button size="small" onClick={() => { setSelectedMovie(movie); setIsModalEdit(true); }}> Edit</Button>
+
                 <Button color="error" size="small" onClick={() => deleteMovie(movie._id)}>Delete</Button>
               </TableCell>
             </TableRow>
@@ -108,7 +110,8 @@ export default function Main(){
         </TableBody>
       </Table>
       <AddMovieModal open={isModalOpen} onClose={() => setIsModalOpen(false)} onAdd={addMovie} />
-      {/* <EditMovieModel open={isModalEdit} onClose={() => setIsModalEdit(false)} onAdd={editMovie} /> */}
+      <EditMovieModal open={isModalEdit} onClose={() => setIsModalEdit(false)} movie={selectedMovie} onEdit={editMovie}/>
+
     </Container>
   );
 }
