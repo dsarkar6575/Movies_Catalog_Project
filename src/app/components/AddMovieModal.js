@@ -28,7 +28,7 @@ export default function AddMovieModal({ open, onClose, onAdd }) {
          
         <TextField name="cast" label="Cast" fullWidth margin="normal" onChange={handleChange} />
         <TextField name="director" label="Director" fullWidth margin="normal" onChange={handleChange} />
-        <TextField name="budget" label="Budget" type="number" fullWidth margin="normal" onChange={handleChange} />
+        <TextField name="budget" label="Movie Budget (in INR)"  fullWidth margin="normal" onChange={handleChange} />
         <Button variant="contained" onClick={handleSubmit}>
           Submit
         </Button>

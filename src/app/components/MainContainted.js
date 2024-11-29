@@ -79,6 +79,7 @@ export default function Main(){
     
     <Container>
       <h1>Movie Catalog</h1>
+      <br/>
       <Button  sx={{ position: 'absolute', top: 78, right: 25 }} variant="contained" onClick={() => setIsModalOpen(true)}>
         Add a New Movie
       </Button>

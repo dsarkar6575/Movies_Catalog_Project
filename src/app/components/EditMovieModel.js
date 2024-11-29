@@ -33,14 +33,7 @@ export default function EditMovieModal({ open, onClose, movie, onEdit }) {
           onChange={handleChange}
           fullWidth margin="normal"
           
-        />
-        <TextField
-          label="Director"
-          name="director"
-          value={updatedMovie.director || ''}
-          onChange={handleChange}
-          fullWidth margin="normal"
-        />
+        />  
         <TextField
           label="Cast"
           name="cast"
@@ -49,7 +42,14 @@ export default function EditMovieModal({ open, onClose, movie, onEdit }) {
           fullWidth margin="normal"
         />
         <TextField
-          label="Budget"
+          label="Director"
+          name="director"
+          value={updatedMovie.director || ''}
+          onChange={handleChange}
+          fullWidth margin="normal"
+        />  
+        <TextField
+          label="Movie Budget (in INR)"
           name="budget"
           value={updatedMovie.budget || ''}
           onChange={handleChange}
