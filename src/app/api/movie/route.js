@@ -40,7 +40,7 @@ export async function POST(request){
 
 
   }catch(error){
-    console.log(error);
+    
     return NextResponse.json({
       message:"failed to create movie!!",
       status:false,

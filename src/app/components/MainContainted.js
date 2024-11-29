@@ -51,9 +51,6 @@ export default function Main(){
     }
   };
   
-  
-
-  
   const deleteMovie = async (movieId) => {
     try {
       const response = await fetch(`/api/movie/${movieId}`, {

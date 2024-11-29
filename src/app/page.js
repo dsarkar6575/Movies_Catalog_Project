@@ -1,5 +1,3 @@
-import Image from "next/image";
-import styles from "./page.module.css";
 import React from 'react'
 import {Grid} from '@mui/material';
 import Sidebar from "./components/Sidebar";
@@ -15,7 +13,7 @@ export default function Home() {
       <Grid item style={{ flexGrow: 1 }}>
         <Main/>
       </Grid>
-    </Grid>
+    </Grid>``
    
  
   </div>
